@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="administration" source-language="nl-NL" target-language="nl-NL" datatype="plaintext">
+    <body>
+      <trans-unit id="78b2fcbf7562a483d6510aa9e6e30c51">
+        <source>Google reCAPTCHA</source>
+        <target>Google reCAPTCHA</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="a6cd29b8852e9f67fde983a5426bebc4">
+        <source>reCAPTCHA v3 artificial intelligence protects your website from bots.</source>
+        <target>reCAPTCHA v3 kunstmatige intelligentie beschermt uw website tegen robots.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="91511c9f969d58b7b60bfe58a75e9638">
+        <source>Do you want to uninstall the module? Your website's forms will be unprotected.</source>
+        <target>Wilt u deze module deïnstalleren?. Uw website zal niet meer beschermd zijn tegen robots.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="254f642527b45bc260048e30704edb39">
+        <source>Configuration</source>
+        <target>Instellingen</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ec53a8c4f07baed5d8825072c89799be">
+        <source>Status</source>
+        <target>Status</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4aa73762358ee83272f15566b7e1e840">
+        <source>Activate reCAPTCHA in live mode.</source>
+        <target>Activeer reCAPTCHA in de live-modus.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="00d23a76e43b46dae9ec7aa9dcbebb32">
+        <source>Enabled</source>
+        <target>Ingeschakeld</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="b9f5c797ebbf55adccdd8539a65a0241">
+        <source>Disabled</source>
+        <target>Uitgeschakeld</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="20f4f54341e68e01b853e9483e5fe37f">
+        <source>Site Key</source>
+        <target>Sitesleutel</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3f48226abd74b3815b3d8bcc4f687916">
+        <source>The reCAPTCHA site key, retrieve this key from your Google account.</source>
+        <target>De reCAPTCHA sitesleutel, haal deze op uit uw Google-account.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5eb6bb157528b365f84c27bb4784031b">
+        <source>Secret Key</source>
+        <target>Geheime sleutel</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="dd97b7451f82b1d6ad750e9e10a90314">
+        <source>The reCAPTCHA secret key, retrieve this key from your Google account.</source>
+        <target>De reCAPTCHA geheime sleutel, haal deze op uit uw Google-account.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Opslaan</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="dd90f2eb4c132d8a963143d5ba70092a">
+        <source>Invalid status choice.</source>
+        <target>Ongeldige status.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="c38e26b38c77dd471e66ff49a9abc71b">
+        <source>Your public site key is required in order to enable reCAPTCHA.</source>
+        <target>Uw openbare sitesleutel is vereist om reCAPTCHA in te schakelen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="620cfc5fd64c35c11d2e32621e0ae875">
+        <source>Your secret site key is required in order to enable reCAPTCHA.</source>
+        <target>Uw geheime sleutel is vereist om reCAPTCHA in te schakelen.</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f28aee3a27fe904949c6280e7d42bd1c">
+        <source>Configuration updated successfully.</source>
+        <target>Instellingen successvol bijgewerkt.</target>
+        <note>Line: </note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -6,6 +6,9 @@ if (!defined('_PS_VERSION_')) {
 
 class MX_Recaptcha extends Module
 {
+    private $html;
+    private $confirmation;
+
     public function __construct()
     {
         $this->name = 'mx_recaptcha';
@@ -17,10 +20,10 @@ class MX_Recaptcha extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('Google reCAPTCHA');
-        $this->description = $this->l('reCAPTCHA v3 artificial intelligence protects your website from bots.');
-        $this->confirmUninstall = $this->l('Do you want to uninstall the module? Your website\'s forms will be unprotected.');
-        $this->ps_versions_compliance = array('min' => '1.7', 'max' => _PS_VERSION);
+        $this->displayName = $this->trans('Google reCAPTCHA', [], 'Modules.Mxrecaptcha.Configuration');
+        $this->description = $this->trans('reCAPTCHA v3 artificial intelligence protects your website from bots.', [], 'Modules.Mxrecaptcha.Configuration');
+        $this->confirmUninstall = $this->trans('Do you want to uninstall the module? Your website\'s forms will be unprotected.', [], 'Modules.Mxrecaptcha.Configuration');
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
 
     public function install()
@@ -47,15 +50,15 @@ class MX_Recaptcha extends Module
 
     public function getContent()
     {
-        if (Tools::isSubmit('submitMXRecaptchaModule'))
+        if (Tools::isSubmit('submitMXRecaptchaConfig'))
         {
             $this->postProcess();
         }
 
-        return $this->renderForm();
+        return $this->displayForm();
     }
 
-    protected function renderForm()
+    protected function displayForm()
     {
         $helper = new HelperForm();
 
@@ -66,7 +69,7 @@ class MX_Recaptcha extends Module
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
 
         $helper->identifier = $this->identifier;
-        $helper->submit_action = 'submitMXRecaptchaModule';
+        $helper->submit_action = 'submitMXRecaptchaConfig';
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false) .
             '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
@@ -77,22 +80,9 @@ class MX_Recaptcha extends Module
             'id_language'  => $this->context->language->id,
         );
 
-        $notification = '';
-
-        if (Tools::isSubmit('submitMXRecaptchaModule'))
-        {
-            if (empty($this->_errors))
-            {
-                $notification = $this->displayConfirmation($this->l('Configuration has been updated successfully!'));
-            }
-            else
-            {
-                $notification = $this->displayError($this->l('An error occured while saving the configuration.'));
-            }
-        }
-
         return #$this->getTemplate('top') .
-               $notification .
+               $this->confirmation .
+               $this->html .
                $helper->generateForm(array($this->getConfigForm()));
                #$this->getTemplate('bottom');
     }
@@ -107,47 +97,47 @@ class MX_Recaptcha extends Module
         return array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('Configuration'),
+                    'title' => $this->trans('Configuration', [], 'Modules.Mxrecaptcha.Configuration'),
                     'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     array(
                         'name' => 'MX_RECAPTCHA_STATUS',
                         'type' => 'switch',
-                        'label' => $this->l('Status'),
-                        'desc' => $this->l('Activate reCAPTCHA in live mode.'),
+                        'label' => $this->trans('Status', [], 'Modules.Mxrecaptcha.Configuration'),
+                        'desc' => $this->trans('Activate reCAPTCHA in live mode.', [], 'Modules.Mxrecaptcha.Configuration'),
                         'class' => 't',
                         'is_bool' => true,
                         'values' => array(
                             array(
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->l('Enabled'),
+                                'label' => $this->trans('Enabled', [], 'Modules.Mxrecaptcha.Configuration'),
                             ),
                             array(
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->l('Disabled'),
+                                'label' => $this->trans('Disabled', [], 'Modules.Mxrecaptcha.Configuration'),
                             ),
                         ),
                     ),
                     array(
                         'name' => 'MX_RECAPTCHA_SITE_KEY',
                         'type' => 'text',
-                        'label' => $this->l('Site Key'),
-                        'desc' => $this->l('The reCAPTCHA site key, retrieve this key from your Google account.'),
+                        'label' => $this->trans('Site Key', [], 'Modules.Mxrecaptcha.Configuration'),
+                        'desc' => $this->trans('The reCAPTCHA site key, retrieve this key from your Google account.', [], 'Modules.Mxrecaptcha.Configuration'),
                         'col' => 3,
                     ),
                     array(
                         'name' => 'MX_RECAPTCHA_SECRET_KEY',
                         'type' => 'text',
-                        'label' => $this->l('Secret Key'),
-                        'desc' => $this->l('The reCAPTCHA secret key, retrieve this key from your Google account.'),
+                        'label' => $this->trans('Secret Key', [], 'Modules.Mxrecaptcha.Configuration'),
+                        'desc' => $this->trans('The reCAPTCHA secret key, retrieve this key from your Google account.', [], 'Modules.Mxrecaptcha.Configuration'),
                         'col' => 3,
                     )
                 ),
                 'submit' => array(
-                    'title' => $this->l('Save'),
+                    'title' => $this->trans('Save', [], 'Modules.Mxrecaptcha.Configuration'),
                 )
             )
         );
@@ -164,11 +154,45 @@ class MX_Recaptcha extends Module
 
     private function postProcess()
     {
-        $form_values = $this->getConfigFormValues();
+        $error = false;
 
-        foreach (array_keys($form_values) as $key)
+        $recaptcha = Tools::getValue('MX_RECAPTCHA_STATUS');
+        if ($recaptcha != 0 && $recaptcha != 1) {
+            $this->html .= $this->displayError($this->trans('Invalid status choice.', [], 'Modules.Mxrecaptcha.Configuration'));
+            $error = true;
+        }
+        else
         {
-            Configuration::updateValue($key, Tools::getValue($key));
+            Configuration::updateValue('MX_RECAPTCHA_STATUS', $recaptcha);
+        }
+
+        $recaptchaSiteKey = Tools::getValue('MX_RECAPTCHA_SITE_KEY');
+        if (!$recaptchaSiteKey || empty($recaptchaSiteKey) && ($recaptcha == 1))
+        {
+            $this->html .= $this->displayError($this->trans('Your public site key is required in order to enable reCAPTCHA.', [], 'Modules.Mxrecaptcha.Configuration'));
+            Configuration::updateValue('MX_RECAPTCHA_STATUS', false);
+            $error = true;
+        }
+        else
+        {
+            Configuration::updateValue('MX_RECAPTCHA_SITE_KEY', $recaptchaSiteKey);
+        }
+
+        $recaptchaSecretKey = Tools::getValue('MX_RECAPTCHA_SECRET_KEY');
+        if (!$recaptchaSecretKey || empty($recaptchaSecretKey) && ($recaptcha == 1))
+        {
+            $this->html .= $this->displayError($this->trans('Your secret site key is required in order to enable reCAPTCHA.', [], 'Modules.Mxrecaptcha.Configuration'));
+            Configuration::updateValue('MX_RECAPTCHA_STATUS', false);
+            $error = true;
+        }
+        else
+        {
+            Configuration::updateValue('MX_RECAPTCHA_SECRET_KEY', $recaptchaSecretKey);
+        }
+
+        if (!$error)
+        {
+            $this->confirmation .= $this->displayConfirmation($this->trans('Configuration updated successfully.', [], 'Modules.Mxrecaptcha.Configuration'));
         }
     }
 
@@ -186,6 +210,11 @@ class MX_Recaptcha extends Module
             DIRECTORY_SEPARATOR . 'admin' .
             DIRECTORY_SEPARATOR . $template . '.tpl'
         );
+    }
+
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
     }
 
 
